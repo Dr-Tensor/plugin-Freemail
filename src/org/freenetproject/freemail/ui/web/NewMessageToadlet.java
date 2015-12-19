@@ -433,6 +433,10 @@ public class NewMessageToadlet extends WebPage {
 		assert (subject != null);
 		assert (body != null);
 		assert (headers != null);
+        parent.addChild("script", "src", "//code.jquery.com/jquery-1.10.2.js");
+		parent.addChild("script", "src","//code.jquery.com/ui/1.11.4/jquery-ui.js");
+		parent.addChild("script", "src", "/Freemail/static/js/autocomplete.js");
+
 
 		HTMLNode messageForm = ctx.addFormChild(parent, path(), "newMessage");
 
@@ -453,8 +457,8 @@ public class NewMessageToadlet extends WebPage {
 			String recipient = recipientsIt.next();
 
 			HTMLNode recipientDiv = recipientBox.addChild("div");
-			recipientDiv.addChild("input", new String[] {"name",         "type", "size", "value"},
-			                               new String[] {"to" + recpNum, "text", "100",  recipient});
+			recipientDiv.addChild("input", new String[] {"name",         "type", "size", "value", "class"},
+							new String[] {"to" + recpNum, "text", "100",  recipient, "input"});
 
 			if(recipientsIt.hasNext()) {
 				String buttonName = "removeRcpt" + recpNum;

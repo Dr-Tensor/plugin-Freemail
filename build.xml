@@ -109,6 +109,7 @@
 				<include name="org/freenetproject/freemail/l10n/*.l10n" />
 				<include name="org/freenetproject/freemail/ui/web/css/*.css" />
 				<include name="org/freenetproject/freemail/ui/web/images/" />
+				<include name="org/freenetproject/freemail/ui/web/js/" />
 			</fileset>
 		</copy>
 	</target>
