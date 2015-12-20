@@ -23,6 +23,7 @@ package org.freenetproject.freemail.ui.web;
 import java.util.HashSet;
 import java.util.Set;
 
+import freenet.client.HighLevelSimpleClient;
 import org.freenetproject.freemail.FreemailPlugin;
 import org.freenetproject.freemail.config.Configurator;
 import org.freenetproject.freemail.utils.Logger;
@@ -79,15 +80,17 @@ public class WebInterface {
 		//Toadlets that don't go in the menu
 		MessageToadlet messageToadlet = new MessageToadlet(freemail.getAccountManager(), pluginRespirator, loginManager);
 		AddAccountToadlet addAccountToadlet = new AddAccountToadlet(pluginRespirator, freemail.getWotConnection(), freemail.getAccountManager(), loginManager);
+		UserIDsList userIDsList = new UserIDsList(pluginRespirator.getHLSimpleClient());
 		registerInvisibleToadlet(messageToadlet, true, false);
 		registerInvisibleToadlet(addAccountToadlet, true, false);
+		registerInvisibleToadlet(userIDsList, true, false);
 
 		StaticToadlet staticToadlet = new StaticToadlet(pluginRespirator, loginManager);
-		staticToadlet.handle(WebInterface.PATH + "/static/css/", "[a-zA-Z0-9]+\\.css",
+		staticToadlet.handle(WebInterface.PATH + "/static/css/", "[a-zA-Z0-9.-]+\\.css",
 		                     "/org/freenetproject/freemail/ui/web/css/", "text/css");
-		staticToadlet.handle(WebInterface.PATH + "/static/js/", "[a-zA-Z0-9]+\\.js",
+		staticToadlet.handle(WebInterface.PATH + "/static/js/", "[a-zA-Z0-9.-]+\\.js",
 				             "/org/freenetproject/freemail/ui/web/js/", "text/javascript");
-		staticToadlet.handle(WebInterface.PATH + "/static/images/svg/", "[a-zA-Z0-9]+\\.svg",
+		staticToadlet.handle(WebInterface.PATH + "/static/images/svg/", "[a-zA-Z0-9.-]+\\.svg",
 		                     "/org/freenetproject/freemail/ui/web/images/svg/", "image/svg+xml");
 		registerInvisibleToadlet(staticToadlet, true, false);
 	}
@@ -115,7 +118,7 @@ public class WebInterface {
 	 * @param atFront {@code true} if the page should be added to the front of the path-check queue
 	 * @param fullAccessOnly {@code true} if the item should only be shown if the client has full access
 	 */
-	private void registerInvisibleToadlet(WebPage webPage, boolean atFront, boolean fullAccessOnly) {
+	private void registerInvisibleToadlet(Toadlet webPage, boolean atFront, boolean fullAccessOnly) {
 		container.register(webPage, null, webPage.path(), atFront, fullAccessOnly);
 
 		synchronized (registeredToadlets) {

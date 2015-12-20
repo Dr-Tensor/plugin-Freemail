@@ -433,12 +433,18 @@ public class NewMessageToadlet extends WebPage {
 		assert (subject != null);
 		assert (body != null);
 		assert (headers != null);
-        parent.addChild("script", "src", "//code.jquery.com/jquery-1.10.2.js");
-		parent.addChild("script", "src","//code.jquery.com/ui/1.11.4/jquery-ui.js");
+
+        parent.addChild("script", "src", "/Freemail/static/js/jquery-1.10.2.js");
+		parent.addChild("script", "src","/Freemail/static/js/jquery-ui.js");
 		parent.addChild("script", "src", "/Freemail/static/js/autocomplete.js");
 
 
-		HTMLNode messageForm = ctx.addFormChild(parent, path(), "newMessage");
+        try {
+            wotConnection.getAllTrustedIdentities(loginManager.getSession(ctx).getUserID());
+        } catch (PluginNotFoundException e) {
+            e.printStackTrace();
+        }
+        HTMLNode messageForm = ctx.addFormChild(parent, path(), "newMessage");
 
 		//Add the extra headers as hidden fields
 		int i = 0;
